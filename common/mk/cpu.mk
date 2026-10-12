@@ -1,12 +1,16 @@
 COMMON_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))../c)
 
-CC     := gcc
-CFLAGS := -O2 -Wall -I$(COMMON_DIR)
+CC       := gcc
+CFLAGS   := -O2 -Wall -I$(COMMON_DIR)
+CXX      := g++
+CXXFLAGS := -O2 -Wall -I$(COMMON_DIR)
 
-SRC        ?= $(wildcard *.c)
+SRC        ?= $(wildcard *.c *.cpp)
 COMMON_SRC := $(wildcard $(COMMON_DIR)/*.c)
-OBJ        := $(SRC:.c=.o) $(notdir $(COMMON_SRC:.c=.o))
+OBJ        := $(patsubst %.cpp,%.o,$(SRC:.c=.o)) $(notdir $(COMMON_SRC:.c=.o))
 TARGET     := $(notdir $(CURDIR))
+
+LD := $(if $(filter %.cpp,$(SRC)),$(CXX),$(CC))
 
 vpath %.c $(COMMON_DIR)
 
@@ -15,10 +19,13 @@ vpath %.c $(COMMON_DIR)
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(LD) -o $@ $^
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 run: $(TARGET)
 	./$(TARGET)
