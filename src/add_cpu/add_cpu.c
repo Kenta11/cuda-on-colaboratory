@@ -23,7 +23,7 @@ int main (void) {
 
     for (int i = 0; i < N; i++) {
         a[i] = i;
-        b[i] = i * N;
+        b[i] = i * 2;
     }
 
     start = now_ms();
