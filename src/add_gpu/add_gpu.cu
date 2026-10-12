@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N 1000000
+#define N 100000000
 
 __global__ void add(const int *a, const int *b, int *c) {
     int tid = blockIdx.x * blockDim.x + threadIdx.x;
