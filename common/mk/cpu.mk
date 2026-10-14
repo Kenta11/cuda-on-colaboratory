@@ -4,6 +4,7 @@ CC       := gcc
 CFLAGS   := -O2 -Wall -I$(COMMON_DIR)
 CXX      := g++
 CXXFLAGS := -O2 -Wall -I$(COMMON_DIR)
+LDLIBS   := -lm
 
 SRC        ?= $(wildcard *.c *.cpp)
 COMMON_SRC := $(wildcard $(COMMON_DIR)/*.c)
@@ -19,7 +20,7 @@ vpath %.c $(COMMON_DIR)
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(LD) -o $@ $^
+	$(LD) -o $@ $^ $(LDLIBS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
