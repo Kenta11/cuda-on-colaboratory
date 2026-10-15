@@ -13,6 +13,7 @@
  * 
  */
 
+#include "image.h"
 #include "measure.h"
 
 #include <complex>
@@ -66,14 +67,7 @@ int main(void) {
     
     printf("julia_cpu: %.3f ms\n", elapsed);
 
-    FILE *fp = fopen("julia_cpu.ppm", "wb");
-    fprintf(fp, "P6\n%d %d\n255\n", DIM, DIM);
-    for (int y = DIM - 1; y >= 0; y--) {
-        for (int x = 0; x < DIM; x++) {
-            fwrite(&(bitmap[(x + y * DIM) * 4]), 1, 3, fp);
-        }
-    }
-    fclose(fp);
+    write_ppm("julia_cpu.ppm", bitmap, DIM, DIM, 4);
 
     free(bitmap);
 
